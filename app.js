@@ -91,6 +91,8 @@ const UICtrl =(function(){
             }
         },
         addListItem: function(item){
+            // Show the list
+            document.querySelector(UISelectors.itemList).style.display = 'block';
             // Create li element
             const li = document.createElement('li');
             li.className = 'collection-item';
@@ -107,6 +109,9 @@ const UICtrl =(function(){
         clearInput: function(){
             document.querySelector(UISelectors.itemNameInput).value = '';
             document.querySelector(UISelectors.itemCaloriesInput).value = '';
+        },
+        hideList: function(){
+            document.querySelector(UISelectors.itemList).style.display = 'none';
         },
         getSelectors: function(){
             return UISelectors;
@@ -152,8 +157,13 @@ const App =(function(ItemCtrl, UICtrl){
             // Fetch Items from data structure
             const items = ItemCtrl.getItems();
 
-            // Populate list with items
-            UICtrl.populateItemList(items);
+            // Check if any items
+            if(items.length === 0){
+                UICtrl.hideList();
+            } else {
+                // Populate list with items
+                UICtrl.populateItemList(items);
+            }
 
             // Load event listeners
             loadEventListeners();
