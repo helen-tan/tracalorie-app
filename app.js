@@ -22,6 +22,9 @@ const ItemCtrl =(function(){
 
     // Public Methods - Whatever we return from the module is what is going to be public
     return {
+        getItems: function(){
+            return data.items;
+        },
         logData: function(){
             return data;
         }
@@ -33,10 +36,26 @@ const ItemCtrl =(function(){
 
 // UI Controller
 const UICtrl =(function(){
+    const UISelectors = {      // So that if the ids ever get changed in the html, we can just change it once here
+        itemList: '#item-list'
+    }
 
     // Public Methods
     return{
+        populateItemList: function(items){
+            let html = '';
 
+            items.forEach(function(item){
+                html += `<li class="collection-item" id="item-${item.id}">
+                            <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+                            <a href="" class="secondary-content">
+                            <i class="edit-item fa fa-pencil"></i>
+                            </a>
+                        </li>`;
+            });
+            // insert list items into UI
+            document.querySelector(UISelectors.itemList).innerHTML = html;
+        }
     }
 })();
 
@@ -49,7 +68,11 @@ const App =(function(ItemCtrl, UICtrl){
     // Public methods
     return {
         init: function(){
-            console.log('Initializing App...');
+            // Fetch Items from data structure
+            const items = ItemCtrl.getItems();
+
+            // Populate list with items
+            UICtrl.populateItemList(items);
         }
     }
     
