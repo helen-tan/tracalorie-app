@@ -104,6 +104,7 @@ const ItemCtrl =(function(){
 const UICtrl =(function(){
     const UISelectors = {      // So that if the ids ever get changed in the html, we can just change it once here
         itemList: '#item-list',
+        listItems: '#item-list li',
         addBtn: '.add-btn',
         updateBtn: '.update-btn',
         deleteBtn: '.delete-btn',
@@ -150,6 +151,23 @@ const UICtrl =(function(){
                             </a>`;
             // insert item
             document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li);
+        },
+        updateListItem: function(updatedItem){
+            let listItems = document.querySelectorAll(UISelectors.listItems); // Gives a Nodelist
+            
+            // Turn Nodelist into array
+            listItems = Array.from(listItems);
+
+            listItems.forEach(function(listItem){
+                const itemID = listItem.getAttribute('id');
+
+                if(itemID === `item-${updatedItem.id}`){
+                    document.querySelector(`#${itemID}`).innerHTML = `<strong>${updatedItem.name}: </strong> <em>${updatedItem.calories} Calories</em>
+                                                                        <a href="" class="secondary-content">
+                                                                        <i class="edit-item fa fa-pencil"></i>
+                                                                        </a>` ;
+                }
+            });
         },
         clearInput: function(){
             document.querySelector(UISelectors.itemNameInput).value = '';
@@ -267,6 +285,9 @@ const App =(function(ItemCtrl, UICtrl){
 
         // Update item
         const updateItem = ItemCtrl.updateItem(input.name, input.calories);
+
+        // Update UI with ediited info
+        UICtrl.updateListItem(updateItem);
 
         e.preventDefault();
     }
