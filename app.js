@@ -286,8 +286,15 @@ const App =(function(ItemCtrl, UICtrl){
         // Update item
         const updateItem = ItemCtrl.updateItem(input.name, input.calories);
 
-        // Update UI with ediited info
+        // Update UI with edited info
         UICtrl.updateListItem(updateItem);
+
+        // Get total calories
+        const totalCalories = ItemCtrl.getTotalCalories();
+        // Add total calories to UI
+        UICtrl.showTotalCalories(totalCalories);
+
+        UICtrl.clearEditState();
 
         e.preventDefault();
     }
