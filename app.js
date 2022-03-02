@@ -57,6 +57,21 @@ const ItemCtrl =(function(){
             });
             return found;
         },
+        updateItem: function(name, calories){
+            // Calories to number
+            calories = parseInt(calories);
+
+            let found = null;
+            // update in data structure
+            data.items.forEach(function(item){
+                if(item.id === data.currentItem.id){
+                    item.name = name;
+                    item.calories = calories;
+                    found = item;
+                }
+            });
+            return found;
+        },
         setCurrentItem: function(item){
             data.currentItem = item;
         },
@@ -183,8 +198,19 @@ const App =(function(ItemCtrl, UICtrl){
         // Add item event
         document.querySelector(UISelectors.addBtn).addEventListener('click', itemAddSubmit);
 
+        // Disable submit on enter
+        document.addEventListener('keypress', function(e){
+            if(e.keyCode === 13 || e.which === 13){
+                e.preventDefault();
+                return false;
+            }
+        });
+
         // Edit icon click event
-        document.querySelector(UISelectors.itemList).addEventListener('click', itemUpdateSubmit);
+        document.querySelector(UISelectors.itemList).addEventListener('click', itemEditClick);
+
+        // Update item event
+        document.querySelector(UISelectors.updateBtn).addEventListener('click', itemUpdateSubmit);
     }
 
     const itemAddSubmit = function(e){
@@ -210,7 +236,7 @@ const App =(function(ItemCtrl, UICtrl){
         e.preventDefault();
     }
 
-    const itemUpdateSubmit = function(e){
+    const itemEditClick = function(e){
         if(e.target.classList.contains('edit-item')){
             // Get list item id (item-0, item-1 etc)
             const listId = e.target.parentNode.parentNode.id;
@@ -231,6 +257,16 @@ const App =(function(ItemCtrl, UICtrl){
             // Add item to form
             UICtrl.addItemToForm();
         }
+
+        e.preventDefault();
+    }
+
+    const itemUpdateSubmit = function(e){
+        // Get item input
+        const input = UICtrl.getItemInput();
+
+        // Update item
+        const updateItem = ItemCtrl.updateItem(input.name, input.calories);
 
         e.preventDefault();
     }
