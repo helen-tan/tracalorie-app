@@ -204,7 +204,7 @@ const UICtrl =(function(){
                 html += `<li class="collection-item" id="item-${item.id}">
                             <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
                             <a href="" class="secondary-content">
-                            <i class="edit-item fa fa-pencil"></i>
+                            <i class="fa-solid fa-pencil"></i>
                             </a>
                         </li>`;
             });
@@ -228,7 +228,7 @@ const UICtrl =(function(){
             // Add HTML
             li.innerHTML = `<strong>${item.name}: </strong> <em>${item.calories} Calories</em>
                             <a href="" class="secondary-content">
-                            <i class="edit-item fa fa-pencil"></i>
+                            <i class="fa-solid fa-pencil"></i>
                             </a>`;
             // insert item
             document.querySelector(UISelectors.itemList).insertAdjacentElement('beforeend', li);
@@ -245,7 +245,7 @@ const UICtrl =(function(){
                 if(itemID === `item-${updatedItem.id}`){
                     document.querySelector(`#${itemID}`).innerHTML = `<strong>${updatedItem.name}: </strong> <em>${updatedItem.calories} Calories</em>
                                                                         <a href="" class="secondary-content">
-                                                                        <i class="edit-item fa fa-pencil"></i>
+                                                                        <i class="fa-solid fa-pencil"></i>
                                                                         </a>` ;
                 }
             });
